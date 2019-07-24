@@ -2,6 +2,8 @@ package ie.cm.fragments;
 
 import ie.cm.activities.Base;
 import ie.cm.activities.Edit;
+import ie.cm.activities.Favourites;
+import ie.cm.adapters.CoffeeFilter;
 import ie.cm.adapters.CoffeeListAdapter;
 import ie.cm.models.Coffee;
 
@@ -21,9 +23,11 @@ public class CoffeeFragment  extends ListFragment implements  OnClickListener
   protected         Base                activity;
   protected static  CoffeeListAdapter 	listAdapter;
   protected         ListView 			listView;
+  protected CoffeeFilter coffeeFilter;
 
   public CoffeeFragment() {
     // Required empty public constructor
+
   }
 
   public static CoffeeFragment newInstance() {
@@ -43,6 +47,14 @@ public class CoffeeFragment  extends ListFragment implements  OnClickListener
 
     listAdapter = new CoffeeListAdapter(activity, this, Base.coffeeList);
     setListAdapter (listAdapter);
+
+    coffeeFilter = new CoffeeFilter(Base.coffeeList, "all",listAdapter);
+
+    if(getActivity()instanceof Favourites){
+      coffeeFilter.setFilter("favourites");
+      coffeeFilter.filter("");
+      listAdapter.notifyDataSetChanged();
+    }
   }
      
   @Override
